@@ -44,7 +44,53 @@ const add = async (req, res) => {
     }        
 }
 
+/**
+ * @route POST /api/employees/remove/:id
+ * @desc  Удаление сотрудника
+ * @acess Private
+ */
+const remove = async (req, res) => {
+    const {id} = req.body;
+
+    try {
+        await prisma.employee.delete({
+            where: {
+                id
+            }
+        });
+
+        res.status(204).json('OK')
+    } catch {
+        res.status(500).json({message: 'Не удалось удалить сострудника'});
+    }
+}
+
+/**
+ * @route POST /api/employees/edit/:id
+ * @desc  Редактирование сотрудника
+ * @acess Private
+ */
+const edit = async (req, res) => {
+    const data = req.body;
+    const id = data.id;
+
+    try {
+        await prisma.employee.update({
+            where: {
+                id
+            },
+            data
+        });
+
+        res.status(204).json('ОК')
+    } catch {
+        res.status(500).json({message: 'Не удалось редактировать сострудника'});
+    }
+}
+
 module.exports = {
     all,
-    add
+    add,
+    remove,
+    edit
 }
