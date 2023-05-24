@@ -70,6 +70,7 @@ const remove = async (req, res) => {
  * @desc  Редактирование сотрудника
  * @acess Private
  */
+
 const edit = async (req, res) => {
     const data = req.body;
     const id = data.id;
