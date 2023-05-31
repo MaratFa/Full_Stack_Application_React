@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { Paths } from "../../paths";
 import { UserData, useLoginMutation } from "../../app/Services/auth";
 import { isErrorWithMessage } from "../is-error-with-message";
+import { ErrorMessage } from "../../components/error-message";
 
 export const Login = () => {
   const [loginUser, loginUserResult] = useLoginMutation()
@@ -21,10 +22,11 @@ export const Login = () => {
       const maybeError = isErrorWithMessage(err);
 
       if (maybeError) {
-
+        setError(err.data.message);
+      } else {
+        setError("Неизвестная ошибка");
       }
     }
-
   }
 
   return (
@@ -42,6 +44,7 @@ export const Login = () => {
             <Typography.Text>
               Нет аккаунта? <Link to={Paths.register}>Зарегистриуйтесь</Link>
             </Typography.Text>
+            <ErrorMessage />
           </Space>
         </Card>
       </Row>
