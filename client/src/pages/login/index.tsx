@@ -21,7 +21,6 @@ export const Login = () => {
 
       navigate('/');
     } catch (err) {
-      console.log('err', err);
       const maybeError = isErrorWithMessage(err);
 
       if (maybeError) {
