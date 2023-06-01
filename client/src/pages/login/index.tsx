@@ -4,13 +4,14 @@ import { Layout } from "../../components/layout";
 import { Card, Form, Row, Space, Typography } from "antd";
 import { PasswordInput } from "../../components/password-input/input";
 import { CustomButton } from "../../components/custom-button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Paths } from "../../paths";
 import { UserData, useLoginMutation } from "../../app/Services/auth";
 import { isErrorWithMessage } from "../is-error-with-message";
 import { ErrorMessage } from "../../components/error-message";
 
 export const Login = () => {
+  const navigate = useNavigate();
   const [loginUser, loginUserResult] = useLoginMutation()
   const [ error, setError ] = useState('');
 
@@ -18,7 +19,9 @@ export const Login = () => {
     try {
       await loginUser(data).unwrap();
 
+      navigate('/');
     } catch (err) {
+      console.log('err', err);
       const maybeError = isErrorWithMessage(err);
 
       if (maybeError) {
