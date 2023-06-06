@@ -4,9 +4,12 @@ import {
   useEditEmployeeMutation,
   useGetEmployeeQuery,
 } from "../../app/services/employees";
-import { Layout, Row } from "antd";
+import { Row } from "antd";
 import { EmployeeForm } from "../../components/employee-form";
 import { Employee } from "@prisma/client";
+import { Paths } from "../../paths";
+import { isErrorWithMessage } from "../../utils/is-error-with-message";
+import { Layout } from "../../components/layout";
 
 export const EditEmployee = () => {
   const navigate = useNavigate();
@@ -27,7 +30,17 @@ export const EditEmployee = () => {
       };
 
       await editEmployee(editedEmployee).unwrap();
-    } catch (error) {}
+
+      navigate(`${Paths.status}/updated`);
+    } catch (error) {
+      const maybeError = isErrorWithMessage(error);
+
+      if (maybeError) {
+        setError(error.data.message);
+      } else {
+        setError("Неизвестная ошибка");
+      }
+    }
   };
 
   return (
